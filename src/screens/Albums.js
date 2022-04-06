@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import AlbumRender from '../components/AlbumRender';
+import {styles} from '../styles/screens/AlbumStyles';
 
-const Albums = () => {
+const Albums = ({navigation}) => {
   const [album, setAlbum] = useState([]);
 
   const fetchAlbum = async () => {
@@ -18,27 +20,12 @@ const Albums = () => {
   return (
     <View>
       <FlatList
-        columnWrapperStyle={{justifyContent: 'space-evenly'}}
+        columnWrapperStyle={styles.flatListWrapperStyle}
         data={album}
         keyExtractor={item => item.id}
         numColumns={2}
         renderItem={({item}) => (
-          <View
-            style={{
-              height: 200,
-              width: '49%',
-              backgroundColor: '#899596',
-              marginTop: 3,
-              borderRadius: 30,
-            }}>
-            <Text 
-              style={{  
-                alignItems: 'center',
-                alignSelf: 'center',
-              }}>
-              {item.id}
-            </Text>
-          </View>
+          <AlbumRender id={item.id} onPress={() => navigation.navigate('AlbumDetails', item.id) }/>
         )}
       />
     </View>

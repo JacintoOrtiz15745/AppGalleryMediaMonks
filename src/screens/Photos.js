@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, ActivityIndicator, FlatList, Image} from 'react-native';
-import {PhotoImage} from '../components/PhotoImage';
+import PhotoRender from '../components/PhotoRender';
 
 const Photos = () => {
   const [photos, setPhotos] = useState([]);
@@ -24,8 +24,8 @@ const Photos = () => {
         data={photos}
         keyExtractor={item => item.id}
         numColumns={2}
-        renderItem={({item}) => (
-          <Image style={{height: 200, width: '49%', marginTop: 3}} source={{uri: item.url}} />
+        renderItem={({item}) => ( 
+          <PhotoRender url={item.url}/>
         )}
       />
     </View>
