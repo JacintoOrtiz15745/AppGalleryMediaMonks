@@ -18,7 +18,7 @@ const Albums = ({navigation, data, fetchAlbumsFunction}) => {
       {data.isLoaded == false ? (
         <ActivityIndicator size="large" color="#00ff0" />
       ) : (
-        <FlatList 
+        <FlatList
           data={data.dataAlbums}
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
