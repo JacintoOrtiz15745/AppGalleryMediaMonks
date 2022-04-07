@@ -13,16 +13,14 @@ const Albums = ({navigation, data, fetchAlbumsFunction}) => {
   }
 
   return (
-    <View>
+    <View style={styles.mainContainer}>
       <StatusBar backgroundColor="#fff" barStyle={'dark-content'} />
       {data.isLoaded == false ? (
         <ActivityIndicator size="large" color="#00ff0" />
       ) : (
-        <FlatList
-          columnWrapperStyle={styles.flatListWrapperStyle}
+        <FlatList 
           data={data.dataAlbums}
           keyExtractor={item => item.id}
-          numColumns={2}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
             <AlbumRender

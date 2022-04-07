@@ -7,16 +7,20 @@ const Tab = createMaterialTopTabNavigator();
 
 const Navigations = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{
+      tabBarActiveTintColor: '#1580f3',
+      tabBarInactiveTintColor: '#141414',  
+      tabBarLabelStyle: {fontSize: 22, textTransform: 'none', fontWeight: '500',},
+    }}>
       <Tab.Screen
         name="Photos"
         component={Photos}
-        options={{tabBarLabel: 'Photos'}}
+        options={{tabBarLabel: 'Photos', tabBarIndicatorStyle: {opacity:0}}} 
       />
       <Tab.Screen
         name="Albums"
-        component={Albums}
-        options={{tabBarLabel: 'Albums'}}
+        component={Albums} 
+        options={{tabBarLabel: 'Albums', tabBarIndicatorStyle: {opacity:0}}}
       />
     </Tab.Navigator>
   );

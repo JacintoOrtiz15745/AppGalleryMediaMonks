@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
-export const styles = StyleSheet.create({
-  flatListWrapperStyle: {
-    justifyContent: 'space-evenly',
-  },
+import { color } from '../../utils/Constants';
+export const styles = StyleSheet.create({ 
+  mainContainer: {
+    backgroundColor: color.white
+  }
 });
