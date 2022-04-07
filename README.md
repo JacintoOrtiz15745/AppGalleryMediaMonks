@@ -5,7 +5,7 @@ Media Monks challenge App made with Redux, Redux Thunk and Redux Persist
 # Installation
 To install, make `git clone`, `npm install` and `npm run android`  
 
-# Api used
+# Apis used
 
 To fetch the photos
 
