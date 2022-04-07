@@ -1,35 +1,45 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, ActivityIndicator, FlatList, Image} from 'react-native';
-import {PhotoImage} from '../components/PhotoImage';
+import React, {useEffect} from 'react';
+import {View, FlatList, StatusBar, ActivityIndicator} from 'react-native';
+import PhotoRender from '../components/PhotoRender';
+import {connect} from 'react-redux';
+import {fetchPhotosFunction} from '../store/actions/PhotosActions';
 
-const Photos = () => {
-  const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchPhotos = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/photos');
-    const data = await response.json();
-
-    setPhotos(data);
-  };
-
-  useEffect(() => {
-    fetchPhotos();
-  }, []);
+const Photos = ({data, fetchPhotosFunction}) => {
+  if (data.isLoaded == false) {
+    useEffect(() => {
+      fetchPhotosFunction();
+    }, []);
+  }
 
   return (
     <View>
-      <FlatList
-        columnWrapperStyle={{justifyContent: 'space-evenly'}}
-        data={photos}
-        keyExtractor={item => item.id}
-        numColumns={2}
-        renderItem={({item}) => (
-          <Image style={{height: 200, width: '49%', marginTop: 3}} source={{uri: item.url}} />
-        )}
-      />
+      <StatusBar backgroundColor="#fff" barStyle={'dark-content'} />
+      {data.isLoaded == false ? (
+        <ActivityIndicator size="large" color="#00ff0" />
+      ) : (
+        <FlatList
+          columnWrapperStyle={{justifyContent: 'space-evenly'}}
+          data={data.dataPhotos}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => <PhotoRender url={item.url} />}
+        />
+      )}
     </View>
   );
 };
 
-export default Photos;
+const mapStateToProps = state => {
+  return {
+    data: state.PhotosReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchPhotosFunction: () => dispatch(fetchPhotosFunction()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Photos);

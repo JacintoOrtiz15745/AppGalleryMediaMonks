@@ -5,7 +5,7 @@ import Albums from '../screens/Albums';
 
 const Tab = createMaterialTopTabNavigator();
 
-export const Navigations = () => {
+const Navigations = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -21,4 +21,6 @@ export const Navigations = () => {
     </Tab.Navigator>
   );
 };
- 
+
+
+export default Navigations

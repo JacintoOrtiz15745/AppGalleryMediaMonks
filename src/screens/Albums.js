@@ -1,48 +1,51 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, FlatList, StatusBar, ActivityIndicator} from 'react-native';
+import AlbumRender from '../components/AlbumRender';
+import {styles} from '../styles/screens/AlbumStyles';
+import {connect} from 'react-redux';
+import {fetchAlbumsFunction} from '../store/actions/AlbumsActions';
 
-const Albums = () => {
-  const [album, setAlbum] = useState([]);
-
-  const fetchAlbum = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/albums');
-    const data = await response.json();
-
-    setAlbum(data);
-  };
-
-  useEffect(() => {
-    fetchAlbum();
-  }, []);
+const Albums = ({navigation, data, fetchAlbumsFunction}) => {
+  if (data.isLoaded == false) {
+    useEffect(() => {
+      fetchAlbumsFunction();
+    }, []);
+  }
 
   return (
     <View>
-      <FlatList
-        columnWrapperStyle={{justifyContent: 'space-evenly'}}
-        data={album}
-        keyExtractor={item => item.id}
-        numColumns={2}
-        renderItem={({item}) => (
-          <View
-            style={{
-              height: 200,
-              width: '49%',
-              backgroundColor: '#899596',
-              marginTop: 3,
-              borderRadius: 30,
-            }}>
-            <Text 
-              style={{  
-                alignItems: 'center',
-                alignSelf: 'center',
-              }}>
-              {item.id}
-            </Text>
-          </View>
-        )}
-      />
+      <StatusBar backgroundColor="#fff" barStyle={'dark-content'} />
+      {data.isLoaded == false ? (
+        <ActivityIndicator size="large" color="#00ff0" />
+      ) : (
+        <FlatList
+          columnWrapperStyle={styles.flatListWrapperStyle}
+          data={data.dataAlbums}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <AlbumRender
+              title={item.title}
+              onPress={() => navigation.navigate('AlbumDetails', item.id)}
+            />
+          )}
+        />
+      )}
     </View>
   );
 };
 
-export default Albums;
+const mapStateToProps = state => {
+  return {
+    data: state.AlbumsReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAlbumsFunction: () => dispatch(fetchAlbumsFunction()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Albums);
